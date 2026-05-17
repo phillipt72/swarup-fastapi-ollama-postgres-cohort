@@ -63,16 +63,6 @@ uvicorn app.main:app --reload
 
 Open <http://localhost:8000>.
 
-## Self-paced reading
-
-[`docs/crash_course.md`](docs/crash_course.md) is the single-file end-to-end narrative tutorial — ~2,000 lines that walk you from `python --version` through the V1 final state. Use it for:
-
-- Pre-class install (Module 0 install walk-through, Windows + macOS inline)
-- Catch-up if you miss a session
-- Self-study if you're going through the course alone
-
-Each module section in the crash course follows a consistent pattern: notional machine → analogy → full code → trace in execution order → predict before you run → why this design → verify → defend it.
-
 ## Publish your work
 
 At the end of Module 8 you have a complete, working V1. The closing step of the course is to publish your version to your own GitHub as a portfolio piece — your "I built this" you can show to recruiters and managers.
@@ -87,4 +77,4 @@ The walk-through is in **[`docs/publish_your_work.md`](docs/publish_your_work.md
 
 ---
 
-*If you're reading this from a download outside a cohort, welcome — the course works as a self-paced read using `docs/crash_course.md` plus the dist/ checkpoints.*
+*If you're reading this from a download outside a cohort, the per-module `dist/module_NN_*/README.md` files plus the `AGENTS.md` system prompt (loaded by Antigravity / Cursor / Claude Code) are designed to be self-paced — work module by module, use the in-IDE AI partner as your coach.*
