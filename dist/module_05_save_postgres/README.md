@@ -33,7 +33,7 @@ curl -s -X POST http://localhost:8000/ask \
   -d '{"question":"What is the capital of France?"}'
 
 psql "postgresql://postgres:postgres@localhost:5432/llm_question_log" \
-  -c "SELECT id, LEFT(question,40), LEFT(answer,60), created_at FROM interactions ORDER BY id DESC LIMIT 1;"
+  -c "SELECT id, LEFT(question,40), LEFT(answer,60), created_at FROM interactions ORDER BY id DESC LIMIT 10;"
 ```
 
 To prove persistence: stop uvicorn, restart it, run the SELECT again. The row is still there.
@@ -75,3 +75,29 @@ Then ask three different questions in the browser. After each, run the SELECT fr
 ## Defend It (do not paste into Gemini — answer it yourself)
 
 > Why save to a database instead of an in-memory Python list? What does the database give us that a list does not?
+
+## Notes
+
+A Python list only lives in your computer's temporary memory (RAM). If the server crashes, restarts, or you stop the process, that list is wiped. Postgres writes that data to disk, ensuring persistence.
+
+Here is the trace of how that answer travels from the user to the database:
+
+```mermaid
+graph TD
+    A[Browser / Client] -->|1. POST /ask JSON| B[FastAPI ask route]
+    B -->|2. HTTP Request| C[Ollama Client]
+    C -->|3. HTTP Response| B
+    B -->|4. psycopg.connect| D[(Postgres Database)]
+    B -->|5. cur.execute INSERT| D
+    B -->|6. conn.commit| D
+    B -->|7. JSON Response| A
+```
+
+## The Path:
+- **The Request**: The user submits a question. FastAPI receives the POST request at `/ask`, parses the JSON body, and validates it using your AskRequest Pydantic model.
+- **The LLM Call**: Your backend acts as a client. It opens an HTTP client using `httpx` and sends the question (along with the system prompt) to the Ollama server at `localhost:11434`.
+- **The LLM Response**: Ollama generates the text and returns it to your backend.
+- **The Database Connection**: Your code opens a connection to Postgres (`psycopg.connect(DATABASE_URL)`).
+- **The Insertion**: You open a cursor and execute an `INSERT` statement, sending the question, the generated answer, and the model name to the interactions table.
+- **The Commit**: `conn.commit()` is called. This tells Postgres to permanently write the new row to disk.
+- The Server Response: The route returns `AskResponse(answer=answer)` back to the browser.
