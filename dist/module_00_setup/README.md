@@ -19,13 +19,14 @@ There is no `app/` folder yet. This module is verification only. By the end you 
 From this folder, in a terminal inside Antigravity:
 
 ```bash
-python3.11 -m venv venv
+python -m venv venv
 source venv/bin/activate          # Windows: venv\Scripts\Activate.ps1
 pip install -r requirements.txt   # empty in Module 0; teaches the muscle
-createdb llm_question_log         # macOS / Linux
+sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgres';" # reset password 
+createdb -U postgres -h localhost llm_question_log         # macOS / Linux
 # Windows (PowerShell, after Postgres install + PATH update):
 #   createdb -U postgres llm_question_log
-psql -d llm_question_log -f sql/001_create_interactions.sql
+psql -U postgres -h localhost -d llm_question_log -f sql/001_create_interactions.sql
 ```
 
 ## Verify (self-check)
