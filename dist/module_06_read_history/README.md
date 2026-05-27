@@ -17,7 +17,9 @@ The page now shows the ten most recent interactions on load and after each ask. 
 ## Run
 
 ```bash
+python -m venv venv
 source venv/bin/activate
+pip install -r requirements.txt 
 uvicorn app.main:app --reload   # no new packages
 ```
 
