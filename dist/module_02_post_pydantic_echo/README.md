@@ -17,7 +17,9 @@ The page now has a textarea and an Ask button. Submitting sends a JSON `POST /as
 ## Run
 
 ```bash
+python -m venv venv
 source venv/bin/activate
+pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
