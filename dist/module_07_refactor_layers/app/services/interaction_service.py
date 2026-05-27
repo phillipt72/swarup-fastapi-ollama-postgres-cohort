@@ -24,7 +24,7 @@ def save_interaction(question: str, answer: str) -> None:
         )
 
 
-def fetch_recent_history(limit: int = 10) -> list[Interaction]:
+def fetch_recent_history(limit: int = 3) -> list[Interaction]:
     with get_conn() as conn:
         with conn.cursor(row_factory=dict_row) as cur:
             cur.execute(
