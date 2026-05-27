@@ -19,6 +19,7 @@ Hardcoded values (`DATABASE_URL`, `OLLAMA_BASE_URL`, `OLLAMA_MODEL`) move to env
 ## Run
 
 ```bash
+python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt   # adds python-dotenv
 cp .env.example .env
