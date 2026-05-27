@@ -19,8 +19,17 @@ There is no `app/` folder yet. This module is verification only. By the end you 
 From this folder, in a terminal inside Antigravity:
 
 ```bash
+# Install Ollama
+curl -fsSL https://ollama.com/install.sh | sh
+
+# Start Ollama
+sudo systemctl start ollama
+
+# Create virtual environment
 python -m venv venv
 source venv/bin/activate          # Windows: venv\Scripts\Activate.ps1
+
+# Install dependencies
 pip install -r requirements.txt   # empty in Module 0; teaches the muscle
 sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgres';" # reset password 
 createdb -U postgres -h localhost llm_question_log         # macOS / Linux
